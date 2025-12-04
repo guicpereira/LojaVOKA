@@ -144,14 +144,9 @@ function Loja() {
         </div>
       </div>
 
-      <div className="hero-banner">
-        <h1>VOKA</h1>
-        <p>Nova Coleção 2025</p>
-      </div>
-
       <div className="container-loja">
         
-        <div className="filtros-genero">
+        <div className="filtros-genero" style={{marginTop: '40px'}}>
           <button className={filtroCategoria === "Todos" ? "btn-filtro ativo" : "btn-filtro"} onClick={() => setFiltroCategoria("Todos")}>Ver Tudo</button>
           <button className={filtroCategoria === "Roupa Mulher" ? "btn-filtro ativo" : "btn-filtro"} onClick={() => setFiltroCategoria("Roupa Mulher")}>Roupa Mulher</button>
           <button className={filtroCategoria === "Roupa Homem" ? "btn-filtro ativo" : "btn-filtro"} onClick={() => setFiltroCategoria("Roupa Homem")}>Roupa Homem</button>

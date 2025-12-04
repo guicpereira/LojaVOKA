@@ -77,7 +77,7 @@ function Backoffice() {
           <form onSubmit={verificarLogin}>
             <input 
               className="admin-input"
-              type="password" placeholder="Password (admin123)" 
+              type="password" placeholder="" 
               value={senhaInput} 
               onChange={(e) => setSenhaInput(e.target.value)} 
               style={{marginBottom: '15px'}}
@@ -101,12 +101,12 @@ function Backoffice() {
         <form onSubmit={criarProduto} className="form-grid">
           <div className="input-group">
             <label>Nome do Artigo</label>
-            <input className="admin-input" placeholder="Ex: iPhone 15" required 
+            <input className="admin-input" placeholder="" required 
               value={novoProduto.nome} onChange={(e) => setNovoProduto({...novoProduto, nome: e.target.value})} />
           </div>
           <div className="input-group">
             <label>Preço (€)</label>
-            <input className="admin-input" placeholder="Ex: 999" type="number" required 
+            <input className="admin-input" placeholder="" type="number" required 
               value={novoProduto.preco} onChange={(e) => setNovoProduto({...novoProduto, preco: e.target.value})} />
           </div>
           <div className="input-group">
@@ -126,12 +126,12 @@ function Backoffice() {
           </div>
           <div className="input-group" style={{gridColumn: 'span 2'}}>
             <label>Imagem (Nome local OU Link)</label>
-            <input className="admin-input" placeholder="Ex: movel.jpg OU https://..." required 
+            <input className="admin-input" placeholder="" required 
               value={novoProduto.imagem} onChange={(e) => setNovoProduto({...novoProduto, imagem: e.target.value})} />
           </div>
           <div className="input-group" style={{gridColumn: 'span 2'}}>
             <label>Descrição Detalhada</label>
-            <textarea className="admin-input" placeholder="Descreve o produto..." required 
+            <textarea className="admin-input" placeholder="" required 
               value={novoProduto.descricao} onChange={(e) => setNovoProduto({...novoProduto, descricao: e.target.value})} />
           </div>
           <button type="submit" className="btn-gravar">Gravar Produto</button>

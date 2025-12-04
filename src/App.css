@@ -15,7 +15,19 @@ body {
   background-color: var(--bg-color);
   margin: 0;
   color: #333;
+  overflow-x: hidden; 
+  width: 100%;
+  position: relative;
+}
+
+.App { 
+  min-height: 100vh; 
+  display: flex; 
+  flex-direction: column;
+  width: 100%;
+  max-width: 100vw;
   overflow-x: hidden;
+  position: relative;
 }
 
 button, input, select, textarea {
@@ -25,7 +37,7 @@ button, input, select, textarea {
 .App { min-height: 100vh; display: flex; flex-direction: column; }
 
 nav {
-  background-color: #fff;
+  background-color: var(--primary-color);
   padding: 15px;
   display: flex;
   justify-content: center;
@@ -39,7 +51,7 @@ nav {
 
 nav a {
   text-decoration: none;
-  color: var(--secondary-color);
+  color: white;
   font-weight: 600;
   font-size: 1.1rem;
   padding: 8px 16px;
@@ -47,27 +59,14 @@ nav a {
   transition: background 0.3s;
 }
 
-nav a:hover { background-color: var(--primary-color); color: white; }
+nav a:hover { background-color: rgba(255,255,255,0.2); color: white; }
 
 .brand-logo {
   font-weight: 800 !important;
   font-size: 1.5rem !important;
   letter-spacing: 2px !important;
-  color: var(--primary-color) !important;
+  color: white !important;
 }
-
-.hero-banner {
-  background: linear-gradient(135deg, #2563eb, #a855f7);
-  color: white;
-  text-align: center;
-  padding: 40px 20px;
-  margin-bottom: 30px;
-  box-shadow: 0 4px 15px rgba(37, 99, 235, 0.2);
-  border-radius: 0 0 20px 20px;
-}
-
-.hero-banner h1 { margin: 0 0 5px 0; font-size: 2rem; }
-.hero-banner p { margin: 0; font-size: 1rem; opacity: 0.9; }
 
 .loja-wrapper { padding-bottom: 80px; }
 .container-loja { max-width: 1200px; margin: 0 auto; padding: 0 20px; text-align: center; }
@@ -201,7 +200,7 @@ nav a:hover { background-color: var(--primary-color); color: white; }
 .input-group label { display: block; font-size: 0.8rem; font-weight: 700; color: #64748b; margin-bottom: 5px; text-transform: uppercase; }
 .admin-input, .admin-select { width: 100%; padding: 12px 15px; border: 2px solid #e2e8f0; border-radius: 12px; background-color: #f8fafc; outline: none; }
 .admin-input:focus, .admin-select:focus { border-color: var(--primary-color); background-color: white; }
-textarea.admin-input { min-height: 100px; resize: vertical; }
+textarea.admin-input { min-height: 100px; resize: none; }
 
 .btn-gravar { grid-column: span 2; background-color: var(--primary-color); color: white; padding: 15px; border: none; border-radius: 12px; font-weight: 700; font-size: 1rem; cursor: pointer; margin-top: 10px; transition: transform 0.2s; }
 .btn-gravar:hover { transform: translateY(-2px); background-color: #1d4ed8; }
