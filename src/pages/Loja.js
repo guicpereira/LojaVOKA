@@ -1,61 +1,107 @@
+//Importar o useState e o useEffect para poder utilizar nas variáveis
 import { useState, useEffect } from "react";
 
+//Criamos o function que vai ser usado para guardar todas as variaveis e estados que a pagina principal precisa.
 function Loja() {
-  const [produtos, setProdutos] = useState([]);
-  const [pesquisa, setPesquisa] = useState("");
-  const [loading, setLoading] = useState(true);
-  const [meusLikes, setMeusLikes] = useState([]);
-  const [filtroCategoria, setFiltroCategoria] = useState("Todos");
 
+  const [produtos, setProdutos] = useState([]); // Guarda a lista de produtos que vem da API (começa vazia).
+
+  const [pesquisa, setPesquisa] = useState(""); // Guarda o texto que o utilizador escreve na barra de pesquisa.
+
+  const [loading, setLoading] = useState(true); //Controla se o aviso que o site esta "A carregar..." aparece (verdadeiro no início).
+
+  const [meusLikes, setMeusLikes] = useState([]); // Serve para controlar visualmente quais os corações que devem aparecer preenchidos.
+
+  const [filtroCategoria, setFiltroCategoria] = useState("Todos"); //Guarda qual o filtro selecionado (começa com o filtro "Todos").
+
+  // O carrinho é uma lista de produtos. O 'mostrarCarrinho' diz se o menu lateral está aberto ou fechado.
   const [carrinho, setCarrinho] = useState([]);
   const [mostrarCarrinho, setMostrarCarrinho] = useState(false);
 
+  //Link da API utilizada que foi o Sheety em combinação com o Google Sheets.
   const API_URL = "https://api.sheety.co/2672044352a1ba5cc22dc0fb03895bdf/lojaOnline/produtos"; 
 
-  const carregarDados = () => {
+//Função que vai à net buscar os dados dos produtos.
+const carregarDados = () => {
     setLoading(true);
     fetch(API_URL)
+      // 1. Recebe a resposta do servidor.
       .then((response) => {
+        // Verifica se o servidor respondeu com sucesso. Se não, força um erro.
         if (!response.ok) throw new Error("Erro na ligação à API");
+        // Converte a resposta (que vem em texto) para um objeto JSON que o código consegue ler.
         return response.json();
       })
       .then((data) => {
+        /* Aqui guardamos os dados recebidos na nossa variável de estado 'produtos'.
+           
+           A parte (data.produtos || data.Produtos || []) é um sistema de segurança triplo:
+           1. Tenta ler 'data.produtos';
+           2. Se não existir (||), tenta ler 'data.Produtos';
+           3. Se nenhum existir (||), usa uma lista vazia [] para o site não "rebentar".
+        */
         setProdutos(data.produtos || data.Produtos || []); 
+        
+        // Avisa o componente que o carregamento terminou para remover o aviso "A carregar...".
         setLoading(false);
       })
+      // 2. Se algo correr mal em qualquer passo acima (sem internet, link errado, por exemplo), o código salta para aqui.
       .catch((erro) => {
-        console.error("ERRO AO CARREGAR:", erro);
-        setLoading(false);
+        console.error("ERRO AO CARREGAR:", erro); // Mostra o erro técnico na consola para o programador ver.
+        setLoading(false); // Desliga o aviso de "A carregar" para não ficar preso no ecrã.
       });
   };
 
   useEffect(() => {
-    carregarDados();
+    carregarDados(); //Vai buscar a função definida anteriormente, que vai buscar à net os dados dos produtos
+    /*
+      1. Define uma função para definir os likes que ja foram dados anteriormente como likesGuardados;
+      2. Muda o estado dos likes para o valor de likes que estavam guardados
+      Exemplo pratico da funcao: dia 10/01 entrei no site e dei like num produto. Sai do site. No dia 15/01 voltei ao site e esta um like no mesmo produto que tinha dado like.
+    */
     const likesGuardados = JSON.parse(localStorage.getItem("lista_likes_usuario")) || [];
     setMeusLikes(likesGuardados);
   }, []);
 
+// Função acionada quando o utilizador clica no botão de like.
   const alternarLike = (produto) => {
+    // Verifica na lista de likes locais se o ID deste produto já lá está.
+    // Retorna 'true' se já deu like, ou 'false' se ainda não deu like.
     const jaGostei = meusLikes.includes(produto.id);
-    let novosLikes;
-    let novaListaMeusLikes;
 
+    // Cria variáveis vazias que vão guardar os novos valores calculados abaixo.
+    let novosLikes; //'novosLikes' será o número total (ex: passou de 10 para 11).
+    let novaListaMeusLikes; // 'novaListaMeusLikes' será a minha lista pessoal de IDs atualizada.
+    
+    //Funcao para evitar que possa dar likes infinitos. (Se já tinha like, remove. Se não tinha, adiciona)
     if (jaGostei) {
       novosLikes = (produto.likes || 0) - 1;
-      if (novosLikes < 0) novosLikes = 0;
+      if (novosLikes < 0) novosLikes = 0; // Evita likes negativos
       novaListaMeusLikes = meusLikes.filter(id => id !== produto.id);
     } else {
       novosLikes = (produto.likes || 0) + 1;
       novaListaMeusLikes = [...meusLikes, produto.id];
     }
 
+    // 1. Atualiza a variável de estado com a nova lista de IDs favoritos do utilizador.
     setMeusLikes(novaListaMeusLikes);
+
+    /* 2. Atualiza a lista visual de produtos para mostrar o novo número de likes imediatamente.
+       O método .map() cria uma nova lista baseada na anterior:
+       - Se for o produto em que cliquei (p.id === produto.id): cria uma cópia dele com o novo número de likes.
+       - Se for outro produto qualquer (: p): mantém-no exatamente igual.
+    */
     const listaAtualizada = produtos.map(p => 
       p.id === produto.id ? { ...p, likes: novosLikes } : p
     );
+    
+    // Guarda essa nova lista na memória do site para o ecrã atualizar.
     setProdutos(listaAtualizada);
+
+    //Guarda no navegador para não perder os likes se fechar a janela
     localStorage.setItem("lista_likes_usuario", JSON.stringify(novaListaMeusLikes));
 
+    // Envia a atualização dos dados para a API
     fetch(`${API_URL}/${produto.id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
@@ -63,27 +109,37 @@ function Loja() {
     });
   };
 
+  // Adiciona um produto à lista do carrinho e abre a sidebar.
   const adicionarAoCarrinho = (produto) => {
     setCarrinho([...carrinho, produto]);
     setMostrarCarrinho(true);
   };
 
+  // Remove um item do carrinho com base na sua posição (index).
   const removerDoCarrinho = (indexParaRemover) => {
     const novoCarrinho = carrinho.filter((_, index) => index !== indexParaRemover);
     setCarrinho(novoCarrinho);
   };
 
+  // Soma os preços de tudo o que está no carrinho.
   const calcularTotal = () => {
     return carrinho.reduce((total, item) => total + Number(item.preco || 0), 0);
   };
 
+  /* Filtra a lista original de produtos antes de mostrar no ecrã.
+     Verifica:
+     1. Se o nome corresponde à pesquisa.
+     2. Se a categoria corresponde ao filtro selecionado (Homem, Mulher, Tecnologia, etc).
+  */
   const produtosFiltrados = produtos.filter((produto) => {
     const nomeSeguro = (produto.nome || "").toLowerCase();
     const categoriaSegura = (produto.categoria || "").toLowerCase();
     const pesquisaSegura = pesquisa.toLowerCase();
 
+    // Verifica a barra de pesquisa
     const matchPesquisa = nomeSeguro.includes(pesquisaSegura);
     
+    // Verifica os botões de categoria
     let matchCategoria = true;
     if (filtroCategoria === "Roupa Homem") {
       matchCategoria = categoriaSegura.includes("homem") && categoriaSegura.includes("roupa");
@@ -98,9 +154,16 @@ function Loja() {
       matchCategoria = categoriaSegura.includes("casa");
     }
 
+    // Só mostra o produto se passar nos dois testes (pesquisa E categoria)
     return matchPesquisa && matchCategoria;
   });
 
+
+
+
+
+
+//FALTA DOCUMENTAR
   if (loading) return <div className="loading" style={{textAlign:'center', marginTop:'50px'}}>A carregar produtos...</div>;
 
   return (
