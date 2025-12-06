@@ -154,7 +154,7 @@ const carregarDados = () => {
       matchCategoria = categoriaSegura.includes("casa");
     }
 
-    // Só mostra o produto se passar nos dois testes (pesquisa E categoria)
+    // Só mostra o produto se passar nos dois testes (pesquisa e categoria)
     return matchPesquisa && matchCategoria;
   });
 
@@ -162,8 +162,10 @@ const carregarDados = () => {
 
 
 
-
-//FALTA DOCUMENTAR
+  /*
+    Se a variável 'loading' for verdadeira, o código pára aqui e retorna apenas a mensagem.
+    O resto da página (abaixo) só é desenhado quando o loading passar a false.
+  */
   if (loading) return <div className="loading" style={{textAlign:'center', marginTop:'50px'}}>A carregar produtos...</div>;
 
   return (
