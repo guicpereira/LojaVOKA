@@ -1,5 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap');
-
+/*Define a cor do css, ou seja:
+  1.A cor primaria e secundaria do site
+  2.A cor dos destaques
+  3.A cor do background e o fundo de cada "cartao" dos produtos */
 :root {
   --primary-color: #2563eb;
   --secondary-color: #1e293b;
@@ -7,19 +10,19 @@
   --bg-color: #f8f9fa;
   --card-bg: #ffffff;
 }
-
+/*Reset das boxes para garantir o tamanho certo*/
 * { box-sizing: border-box; }
-
+/*Estrutura geral do site*/
 body {
   font-family: 'Poppins', sans-serif;
   background-color: var(--bg-color);
   margin: 0;
   color: #333;
-  overflow-x: hidden; 
+  overflow-x: hidden; /*Evita o scroll lateral*/
   width: 100%;
   position: relative;
 }
-
+/*Define o tamanho minimo e maximo que a app pode ter*/
 .App { 
   min-height: 100vh; 
   display: flex; 
@@ -29,24 +32,24 @@ body {
   overflow-x: hidden;
   position: relative;
 }
-
+/*Define a fonte que vai ser usada*/
 button, input, select, textarea {
   font-family: 'Poppins', sans-serif;
 }
 
 .App { min-height: 100vh; display: flex; flex-direction: column; }
-
+/*Barra de navegacao*/
 nav {
   background-color: var(--primary-color);
   padding: 15px;
   display: flex;
-  justify-content: center;
+  justify-content: center; /*Centra os links*/
   align-items: center;
   gap: 20px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-  position: sticky;
+  position: sticky; /*Faz o menu ficar no topo ao dar scroll no site*/
   top: 0;
-  z-index: 1000;
+  z-index: 1000;/*Garante que fica por cima de tudo*/
 }
 
 nav a {
@@ -58,9 +61,9 @@ nav a {
   border-radius: 20px;
   transition: background 0.3s;
 }
-
+/*Efeito visual ao passar o rato pelos links*/
 nav a:hover { background-color: rgba(255,255,255,0.2); color: white; }
-
+/*Estilos do logotipo*/
 .brand-logo {
   font-weight: 800 !important;
   font-size: 1.5rem !important;
@@ -68,9 +71,10 @@ nav a:hover { background-color: rgba(255,255,255,0.2); color: white; }
   color: white !important;
 }
 
+/*Filtros e pesquisa*/
 .loja-wrapper { padding-bottom: 80px; }
 .container-loja { max-width: 1200px; margin: 0 auto; padding: 0 20px; text-align: center; }
-
+/*Flexbox para os botões que filtrão o genero do produto*/
 .filtros-genero { display: flex; justify-content: center; gap: 15px; margin-bottom: 30px; flex-wrap: wrap; }
 
 .btn-filtro {
@@ -81,7 +85,7 @@ nav a:hover { background-color: rgba(255,255,255,0.2); color: white; }
   font-weight: 600;
   cursor: pointer;
   color: #64748b;
-  transition: all 0.3s;
+  transition: all 0.3s; /*Suaviza  a mudanca de cor*/
 }
 
 .btn-filtro:hover, .btn-filtro.ativo {
@@ -90,20 +94,20 @@ nav a:hover { background-color: rgba(255,255,255,0.2); color: white; }
   border-color: var(--secondary-color);
   transform: translateY(-2px);
 }
-
+/*Define o tamanho minimo e maximo que a barra de pesquisa pode ter*/
 .barra-pesquisa {
   width: 100%; max-width: 500px; padding: 12px 20px;
   border-radius: 50px; border: 2px solid #e2e8f0;
   font-size: 1rem; margin-bottom: 40px; outline: none;
 }
 .barra-pesquisa:focus { border-color: var(--primary-color); }
-
+/*Cria a grelha onde vao estar os produtos*/
 .grelha-produtos {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: 30px;
 }
-
+/*Cri */
 .cartao-produto {
   background: var(--card-bg);
   border-radius: 20px;
@@ -114,12 +118,12 @@ nav a:hover { background-color: rgba(255,255,255,0.2); color: white; }
 }
 
 .cartao-produto:hover { transform: translateY(-8px); }
-
+/*Cria o container onde vai estar a imagem*/
 .imagem-container { height: 250px; background-color: #f1f5f9; overflow: hidden; }
-
+/*Imagem do produto*/
 .img-produto { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
 .cartao-produto:hover .img-produto { transform: scale(1.1); }
-
+/*Informação do produto*/
 .info-produto { padding: 20px; text-align: left; display: flex; flex-direction: column; flex-grow: 1; }
 
 .etiqueta-categoria {
@@ -150,7 +154,7 @@ nav a:hover { background-color: rgba(255,255,255,0.2); color: white; }
   box-shadow: 0 5px 20px rgba(0,0,0,0.3); cursor: pointer; z-index: 2000;
   display: flex; justify-content: center; align-items: center;
 }
-
+/*Faz a notificação no carrinho de o numero de itens */
 .contador-carrinho {
   position: absolute; top: -2px; right: -2px;
   background-color: var(--accent-color); font-size: 0.8rem;
@@ -158,23 +162,24 @@ nav a:hover { background-color: rgba(255,255,255,0.2); color: white; }
   display: flex; align-items: center; justify-content: center;
   border: 2px solid white; font-weight: bold;
 }
-
+/*Cria a sidebar do carrinho*/
 .sidebar-carrinho {
   position: fixed; top: 0; right: -450px; width: 400px; max-width: 90vw;
   height: 100vh; background: white; box-shadow: -5px 0 30px rgba(0,0,0,0.15);
   z-index: 3000; transition: right 0.4s ease; display: flex; flex-direction: column;
 }
+/*Cria o estado em que o utilizador abre o carrinho*/
 .sidebar-carrinho.aberto { right: 0; }
-
+/*Cria o overlay do carrinho(esta invisivel)*/
 .overlay-carrinho {
   position: fixed; top: 0; left: 0; width: 100%; height: 100%;
   background: rgba(0,0,0,0.5); z-index: 2500; opacity: 0; visibility: hidden; transition: opacity 0.3s;
 }
+/*Deixa o estado do overlay do carrinho visivel*/
 .overlay-carrinho.aberto { opacity: 1; visibility: visible; }
 
 .cabecalho-carrinho { padding: 20px; background: var(--secondary-color); color: white; display: flex; justify-content: space-between; align-items: center; }
 .fechar-carrinho { background: none; border: none; color: white; font-size: 2rem; cursor: pointer; line-height: 1; }
-
 .lista-itens-carrinho { flex-grow: 1; overflow-y: auto; padding: 20px; }
 .item-carrinho { display: flex; align-items: center; gap: 15px; margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid #f1f5f9; }
 .item-carrinho img { width: 60px; height: 60px; border-radius: 8px; object-fit: cover; }
@@ -201,10 +206,10 @@ nav a:hover { background-color: rgba(255,255,255,0.2); color: white; }
 .admin-input, .admin-select { width: 100%; padding: 12px 15px; border: 2px solid #e2e8f0; border-radius: 12px; background-color: #f8fafc; outline: none; }
 .admin-input:focus, .admin-select:focus { border-color: var(--primary-color); background-color: white; }
 textarea.admin-input { min-height: 100px; resize: none; }
-
+/*Cria um botão com a função de gravar*/
 .btn-gravar { grid-column: span 2; background-color: var(--primary-color); color: white; padding: 15px; border: none; border-radius: 12px; font-weight: 700; font-size: 1rem; cursor: pointer; margin-top: 10px; transition: transform 0.2s; }
 .btn-gravar:hover { transform: translateY(-2px); background-color: #1d4ed8; }
-
+/*Cria um botão com a função de sair*/
 .btn-sair {
   background: transparent;
   border: 2px solid #fee2e2;
@@ -225,7 +230,7 @@ textarea.admin-input { min-height: 100px; resize: none; }
 .tabela-admin { width: 100%; border-collapse: collapse; background: white; }
 .tabela-admin thead { background-color: var(--secondary-color); color: white; }
 .tabela-admin th, .tabela-admin td { padding: 15px; text-align: left; border-bottom: 1px solid #f1f5f9; }
-
+/*Cria a maneira que o texto da descirção dos produtos vai ser defininda*/
 .descricao-produto {
   font-size: 0.9rem;
   color: #64748b;
@@ -237,4 +242,4 @@ textarea.admin-input { min-height: 100px; resize: none; }
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
-}
+} 
